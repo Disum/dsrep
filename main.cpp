@@ -14,8 +14,7 @@ public:
 
 	// Копирование
 	Matrix& operator=(const Matrix& other) {
-		if (elem==other.elem)
-			return *this;
+		if (elem==other.elem) return *this;
 
 		if ( (numRows!=other.numRows)||(numColumns!=other.numColumns) )
 			throw invalid_argument("Копирование не выполнено: матрицы разных размеров!");
@@ -29,6 +28,8 @@ public:
 
 	// Сложение
 	Matrix& operator+(const Matrix& other) {
+		if (elem==other.elem) return *this;
+
 		if ( (numRows!=other.numRows)||(numColumns!=other.numColumns) )
 			throw invalid_argument("Сложение не выполнено: матрицы разных размеров!");
 		
