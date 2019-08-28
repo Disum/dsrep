@@ -14,6 +14,9 @@ public:
 
 	// Копирование
 	Matrix& operator=(const Matrix& other) {
+		if (elem==other.elem)
+			return *this;
+
 		if ( (numRows!=other.numRows)||(numColumns!=other.numColumns) )
 			throw invalid_argument("Копирование не выполнено: матрицы разных размеров!");
 
@@ -68,7 +71,8 @@ int main() {
 	Matrix<int> iMatr(numRows, numColumns);
 	//iMatr.scan();
 	//iMatr.print();
-
+	
+	iMatr = iMatr;
 	
 	cout << "iMatr2:" << endl << "Число строк матрицы:\t";
 	cin >> numRows;
