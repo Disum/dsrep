@@ -85,10 +85,9 @@ int main() {
 	Matrix<int> iMatr3(numRows, numColumns);
 
 	try { iMatr3 = iMatr2 + iMatr; }
-	catch (invalid_argument) {
+	catch (invalid_argument e) {
 		cout << "Error!" << endl;
-
-		//cout << invalid_argument << endl;
+		cout << e.what() << endl;
 
 		return 0;
 	}
