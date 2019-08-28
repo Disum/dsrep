@@ -11,37 +11,51 @@ public:
 	// Доступ к элементам по индексам
 	T& operator()(int m, int n) { return elem[m*numColumns + n]; }
 
+	/*
 	// Присвоение
 	Matrix& operator=(const Matrix& other) {
-		if( (numRows==other.numRows)&&(numColumns==other.numColumns) )
-			for(int i = 0; i!=numRows; ++i)
-				for(int j = 0; j!=numColumns; ++j)
+		if ( (numRows==other.numRows)&&(numColumns==other.numColumns) )
+			for (int i = 0; i!=numRows; ++i)
+				for (int j = 0; j!=numColumns; ++j)
 					elem[i*numColumns + j] = other.elem[i*numColumns + j];
+
+		return *this;
+	}
+	*/
+
+	// Копирование
+	Matrix& operator=(const Matrix& other) {
+		if ( (numRows!=other.numRows)||(numColumns!=other.numColumns) )
+			throw 0;
+
+		for (int i = 0; i!=numRows; ++i)
+			for (int j = 0; j!=numColumns; ++j)
+				elem[i*numColumns + j] = other.elem[i*numColumns + j];
 
 		return *this;
 	}
 
 	// Сложение
 	Matrix& operator+(const Matrix& other) {
-		if( (numRows==other.numRows)&&(numColumns==other.numColumns) )
-			for(int i = 0; i!=numRows; ++i)
-				for(int j = 0; j!=numColumns; ++j)
+		if ( (numRows==other.numRows)&&(numColumns==other.numColumns) )
+			for (int i = 0; i!=numRows; ++i)
+				for (int j = 0; j!=numColumns; ++j)
 					elem[i*numColumns + j] += other.elem[i*numColumns + j];
 
 		return *this;
 	}
 
 	void scan() {
-		for(int i = 0; i!=numRows; ++i)
-			for(int j = 0; j!=numColumns; ++j) {
+		for (int i = 0; i!=numRows; ++i)
+			for (int j = 0; j!=numColumns; ++j) {
 				cout  << "(" << i << ", " << j << ")=";
 				cin >> elem[i*numColumns + j];
 			}
 	}
 
 	void print() {
-		for(int i = 0; i!=numRows; ++i) {
-			for(int j = 0; j!=numColumns; ++j)
+		for (int i = 0; i!=numRows; ++i) {
+			for (int j = 0; j!=numColumns; ++j)
 				cout << elem[i*numColumns + j] << '\t';
 			cout << endl;
 		}
@@ -61,17 +75,28 @@ int main() {
 	cout << "Число столбцов матрицы:\t";
 	cin >> numColumns;
 	Matrix<int> iMatr(numRows, numColumns);
-	iMatr.scan();
-	iMatr.print();
+	//iMatr.scan();
+	//iMatr.print();
 
+	
 	cout << "iMatr2:" << endl << "Число строк матрицы:\t";
 	cin >> numRows;
 	cout << "Число столбцов матрицы:\t";
 	cin >> numColumns;
 	Matrix<int> iMatr2(numRows, numColumns);
-	iMatr2.scan();
-	iMatr2.print();
+	//iMatr2.scan();
+	//iMatr2.print();
 
+	try { iMatr2 = iMatr; }
+	catch (int err) {
+		cout << "Error!" << endl;
+		if (err==0)
+			cout << "Копирование не выполнено: матрицы разных размеров!" << endl;
+
+		return 0;
+	}
+
+	/*
 	cout << "iMatr3:" << endl << "Число строк матрицы:\t";
 	cin >> numRows;
 	cout << "Число столбцов матрицы:\t";
@@ -82,6 +107,7 @@ int main() {
 
 	cout << "iMatr3:" << endl;
 	iMatr3.print();
+	*/
 
 	return 0;
 }
