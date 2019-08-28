@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <stdexcept>
 using namespace std;
 
 template<typename T>
@@ -11,22 +12,10 @@ public:
 	// Доступ к элементам по индексам
 	T& operator()(int m, int n) { return elem[m*numColumns + n]; }
 
-	/*
-	// Присвоение
-	Matrix& operator=(const Matrix& other) {
-		if ( (numRows==other.numRows)&&(numColumns==other.numColumns) )
-			for (int i = 0; i!=numRows; ++i)
-				for (int j = 0; j!=numColumns; ++j)
-					elem[i*numColumns + j] = other.elem[i*numColumns + j];
-
-		return *this;
-	}
-	*/
-
 	// Копирование
 	Matrix& operator=(const Matrix& other) {
 		if ( (numRows!=other.numRows)||(numColumns!=other.numColumns) )
-			throw 0;
+			throw invalid_argument("Копирование не выполнено: матрицы разных размеров!");
 
 		for (int i = 0; i!=numRows; ++i)
 			for (int j = 0; j!=numColumns; ++j)
@@ -38,7 +27,7 @@ public:
 	// Сложение
 	Matrix& operator+(const Matrix& other) {
 		if ( (numRows!=other.numRows)||(numColumns!=other.numColumns) )
-			throw 1;
+			throw invalid_argument("Сложение не выполнено: матрицы разных размеров!");
 		
 		for (int i = 0; i!=numRows; ++i)
 			for (int j = 0; j!=numColumns; ++j)
@@ -96,18 +85,10 @@ int main() {
 	Matrix<int> iMatr3(numRows, numColumns);
 
 	try { iMatr3 = iMatr2 + iMatr; }
-	catch (const int err) {
+	catch (invalid_argument) {
 		cout << "Error!" << endl;
-		switch (err) {
-		case 0:
-			cout << "Копирование не выполнено: матрицы разных размеров!" << endl;
-			break;
-		case 1:
-			cout << "Сложение не выполнено: матрицы разных размеров!" << endl;
-			break;
-		default:
-			cout << "Неизвестная ошибка!" << endl;
-		}
+
+		//cout << invalid_argument << endl;
 
 		return 0;
 	}
