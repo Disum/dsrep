@@ -37,10 +37,12 @@ public:
 
 	// Сложение
 	Matrix& operator+(const Matrix& other) {
-		if ( (numRows==other.numRows)&&(numColumns==other.numColumns) )
-			for (int i = 0; i!=numRows; ++i)
-				for (int j = 0; j!=numColumns; ++j)
-					elem[i*numColumns + j] += other.elem[i*numColumns + j];
+		if ( (numRows!=other.numRows)||(numColumns!=other.numColumns) )
+			throw 1;
+		
+		for (int i = 0; i!=numRows; ++i)
+			for (int j = 0; j!=numColumns; ++j)
+				elem[i*numColumns + j] += other.elem[i*numColumns + j];
 
 		return *this;
 	}
@@ -87,27 +89,31 @@ int main() {
 	//iMatr2.scan();
 	//iMatr2.print();
 
-	try { iMatr2 = iMatr; }
-	catch (const int err) {
-		cout << "Error!" << endl;
-		if (err==0)
-			cout << "Копирование не выполнено: матрицы разных размеров!" << endl;
-
-		return 0;
-	}
-
-	/*
 	cout << "iMatr3:" << endl << "Число строк матрицы:\t";
 	cin >> numRows;
 	cout << "Число столбцов матрицы:\t";
 	cin >> numColumns;
 	Matrix<int> iMatr3(numRows, numColumns);
 
-	iMatr3 = iMatr + iMatr2;
+	try { iMatr3 = iMatr2 + iMatr; }
+	catch (const int err) {
+		cout << "Error!" << endl;
+		switch (err) {
+		case 0:
+			cout << "Копирование не выполнено: матрицы разных размеров!" << endl;
+			break;
+		case 1:
+			cout << "Сложение не выполнено: матрицы разных размеров!" << endl;
+			break;
+		default:
+			cout << "Неизвестная ошибка!" << endl;
+		}
 
-	cout << "iMatr3:" << endl;
-	iMatr3.print();
-	*/
+		return 0;
+	}
+
+	//cout << "iMatr3:" << endl;
+	//iMatr3.print();
 
 	return 0;
 }
