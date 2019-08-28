@@ -88,7 +88,7 @@ int main() {
 	//iMatr2.print();
 
 	try { iMatr2 = iMatr; }
-	catch (int err) {
+	catch (const int err) {
 		cout << "Error!" << endl;
 		if (err==0)
 			cout << "Копирование не выполнено: матрицы разных размеров!" << endl;
