@@ -13,7 +13,7 @@ public:
 	Matrix(const Matrix<T>& other) :elem{new T[other.numRows*other.numColumns]}, numRows{other.numRows}, numColumns{other.numColumns} {
 		for (int i = 0; i!=numRows; ++i)
 			for (int j = 0; j!=numColumns; ++j)
-				this(i,j) = other(i,j);
+				(*this)(i,j) = other(i,j);
 
 	}
 
@@ -30,7 +30,7 @@ public:
 
 		for (int i = 0; i!=numRows; ++i)
 			for (int j = 0; j!=numColumns; ++j)
-				elem[i*numColumns + j] = other(i,j);
+				(*this)(i,j) = other(i,j);
 
 		return *this;
 	}
