@@ -17,6 +17,24 @@ public:
 
 	}
 
+	// Считывание
+	void scan() {
+		for (int i = 0; i!=numRows; ++i)
+			for (int j = 0; j!=numColumns; ++j) {
+				cout  << "(" << i << ", " << j << ")=";
+				cin >> elem[i*numColumns + j];
+			}
+	}
+
+	// Вывод
+	void print() {
+		for (int i = 0; i!=numRows; ++i) {
+			for (int j = 0; j!=numColumns; ++j)
+				cout << elem[i*numColumns + j] << '\t';
+			cout << endl;
+		}
+	}
+
 	// Доступ к элементам по индексам
 	T& operator()(int m, int n) { return elem[m*numColumns + n]; }
 	T operator()(int m, int n) const { return elem[m*numColumns + n]; }// Выполняется в случае, если элементы вызванной матрицы нельзя менять
@@ -44,27 +62,23 @@ public:
 		
 		for (int i = 0; i!=numRows; ++i)
 			for (int j = 0; j!=numColumns; ++j)
-				elem[i*numColumns + j] += other.elem[i*numColumns + j];
+				(*this)(i,j) += other(i,j);
 
 		return *this;
 	}
 
-	// Считывание
-	void scan() {
-		for (int i = 0; i!=numRows; ++i)
-			for (int j = 0; j!=numColumns; ++j) {
-				cout  << "(" << i << ", " << j << ")=";
-				cin >> elem[i*numColumns + j];
-			}
-	}
+	// Вычитание
+	Matrix& operator-(const Matrix& other) {
+		if (elem==other.elem) return *this;
 
-	// Вывод
-	void print() {
-		for (int i = 0; i!=numRows; ++i) {
+		if ( (numRows!=other.numRows)||(numColumns!=other.numColumns) )
+			throw invalid_argument("Вычитание не выполнено: матрицы разных размеров!");
+
+		for (int i = 0; i!=numRows; ++i)
 			for (int j = 0; j!=numColumns; ++j)
-				cout << elem[i*numColumns + j] << '\t';
-			cout << endl;
-		}
+				(*this)(i,j) -= other(i,j);
+
+		return *this;
 	}
 
 private:
@@ -92,15 +106,16 @@ int main() {
 
 	//iMatr = iMatr;
 
-	/*
 	cout << "iMatr2:" << endl << "Число строк матрицы:\t";
 	cin >> numRows;
 	cout << "Число столбцов матрицы:\t";
 	cin >> numColumns;
-	*/
-	Matrix<int> iMatr2 = iMatr;
-	//iMatr2.scan();
+	Matrix<int> iMatr2(numRows,numColumns);
+	iMatr2.scan();
 	iMatr2.print();
+
+	iMatr = iMatr - iMatr2;
+	iMatr.print();
 
 	/*
 	cout << "iMatr3:" << endl << "Число строк матрицы:\t";
