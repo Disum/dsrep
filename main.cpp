@@ -13,12 +13,13 @@ public:
 	Matrix(const Matrix<T>& other) :elem{new T[other.numRows*other.numColumns]}, numRows{other.numRows}, numColumns{other.numColumns} {
 		for (int i = 0; i!=numRows; ++i)
 			for (int j = 0; j!=numColumns; ++j)
-				elem[i*numColumns + j] = other(i,j);
+				this(i,j) = other(i,j);
 
 	}
 
 	// Доступ к элементам по индексам
 	T& operator()(int m, int n) { return elem[m*numColumns + n]; }
+	T operator()(int m, int n) const { return elem[m*numColumns + n]; }// Выполняется в случае, если элементы вызванной матрицы нельзя менять
 
 	// Копирование
 	Matrix& operator=(const Matrix& other) {
@@ -29,7 +30,7 @@ public:
 
 		for (int i = 0; i!=numRows; ++i)
 			for (int j = 0; j!=numColumns; ++j)
-				elem[i*numColumns + j] = other.elem[i*numColumns + j];
+				elem[i*numColumns + j] = other(i,j);
 
 		return *this;
 	}
